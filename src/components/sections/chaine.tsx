@@ -20,7 +20,7 @@ export default function Chaine() {
           </p>
         </div>
 
-        <ol className="chaine-list">
+        <ol className="chaine-list" data-stagger>
           {chaine.map((etape) => (
             <li key={etape.n} className="chaine-item reveal">
               <span className="chaine-n">{etape.n}</span>

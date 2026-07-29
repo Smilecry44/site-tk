@@ -10,7 +10,25 @@ npm run build   # build de production
 npx next start  # sert le build
 ```
 
-Trois pages : `/` (accueil), `/le-groupe`, `/contact`.
+Trois pages : `/` (accueil), `/le-groupe`, `/contact`. Les entrées « Nos métiers »,
+« Réalisations » et « Notre chaîne » du menu sont des ancres vers des sections de
+l’accueil, pas des pages.
+
+## Parti pris de design
+
+Le site suit le **modernisme suisse** : grille de 12 colonnes, unité de base de 8 px,
+filets plutôt que bordures, une seule couleur d’accent. C’est le registre des sites
+d’architecture et de collectivités, et il vieillit mieux que les effets à la mode.
+
+Trois familles sur un axe de contraste : **Newsreader** en titres, **Manrope** en texte,
+**Azeret Mono** pour les surtitres, libellés et numéros. Le monospace donne le registre
+technique du bâtisseur sans coûter en lisibilité.
+
+Deux recommandations d’outillage ont été écartées volontairement. Le **glassmorphisme**,
+proposé comme style pour l’immobilier, est un effet daté qui coûte en performance et en
+contraste, et ne dit rien d’un groupe familial de quarante ans. Une **palette teal et
+bleu** aurait remplacé le vert `#188636` du logo, alors que l’identité est le seul actif
+visuel que le client possède vraiment.
 
 ## Ce qui vient du site actuel
 
@@ -27,8 +45,10 @@ tkpromotion.fr, ou de l’infographie officielle « Le Groupe TK en chiffres ».
 
 ## Contenu de démonstration, à valider avant mise en ligne
 
-1. **Le formulaire de contact n’envoie rien.** Il valide les champs puis affiche un
-   message de confirmation. Il reste à le brancher (route handler, CRM, service tiers).
+1. **Le formulaire de contact n’envoie rien.** Il valide les champs, affiche un état de
+   chargement de 700 ms pour figurer l’aller-retour réseau, puis un message de
+   confirmation. Il reste à le brancher (route handler, CRM, service tiers). La sélection
+   de parcours de l’accueil le préremplit via `?sujet=`.
    Voir `src/components/contact-form.tsx`.
 2. **Les mentions légales ne sont pas reprises.** Celles du site actuel sont caduques :
    elles publient le SIREN 480 259 902, radié depuis le 18/12/2020, alors que
@@ -67,8 +87,15 @@ tkpromotion.fr, ou de l’infographie officielle « Le Groupe TK en chiffres ».
   serait nécessaire pour des héros pleine largeur en rétina. Toutes ont un texte
   alternatif, ce qui n’était le cas d’aucune image du site actuel.
 - **Animations.** Le contenu est visible par défaut : les apparitions au scroll ne font
-  qu’enrichir un rendu déjà complet, avec un filet de sécurité à 1,5 s.
+  qu’enrichir un rendu déjà complet, avec un filet de sécurité à 1,5 s réarmé à chaque
+  navigation. Les grilles apparaissent en cascade, 60 ms entre deux cartes, plafonnées à
+  360 ms pour que les dernières ne traînent pas. Durées courtes : 240 ms pour les
+  micro-interactions, 450 ms au maximum pour une apparition.
   `prefers-reduced-motion` désactive tout, et `?static=1` fige la page pour les captures.
+- **Aperçu de partage.** `src/app/opengraph-image.tsx` génère l’image affichée sur
+  LinkedIn, WhatsApp et Slack. Le site source n’en avait aucune.
+- **Cibles tactiles.** Tous les liens et boutons font au moins 44 px de haut sur mobile,
+  vérifié automatiquement.
 - **Typographie française.** Aucun tiret cadratin, apostrophes typographiques, espaces
   insécables avant les deux-points et dans les nombres.
 - **Contrastes.** Corps et libellés vérifiés au niveau AA, y compris les surtitres verts

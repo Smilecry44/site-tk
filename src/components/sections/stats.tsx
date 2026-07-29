@@ -4,7 +4,7 @@ export default function Stats() {
   return (
     <section className="section section--tight stats" aria-label="Le Groupe TK en chiffres">
       <div className="shell">
-        <dl className="stats-grid">
+        <dl className="stats-grid" data-stagger>
           {chiffres.map((c) => (
             <div key={c.label} className="stat reveal">
               <dt className="sr-only">{c.label}</dt>

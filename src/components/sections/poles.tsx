@@ -12,7 +12,7 @@ export default function Poles() {
         </header>
       </div>
 
-      <div className="shell poles-list">
+      <div className="shell poles-list" data-stagger>
         {poles.map((pole, i) => (
           <article key={pole.slug} className={`pole reveal${i % 2 ? " pole--flip" : ""}`}>
             <div className="pole-media">

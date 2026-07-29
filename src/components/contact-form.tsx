@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "./brand";
 import { sujets } from "@/lib/data";
 
@@ -11,6 +11,21 @@ import { sujets } from "@/lib/data";
  */
 export default function ContactForm() {
   const [envoye, setEnvoye] = useState(false);
+  const [envoiEnCours, setEnvoiEnCours] = useState(false);
+  const selectRef = useRef<HTMLSelectElement>(null);
+
+  /**
+   * La sélection de parcours de l'accueil arrive avec `?sujet=`. On applique la
+   * valeur après le montage plutôt qu'au rendu : le HTML est prégénéré et une
+   * valeur issue de l'URL provoquerait une divergence d'hydratation.
+   */
+  useEffect(() => {
+    const voulu = new URLSearchParams(window.location.search).get("sujet");
+    if (!voulu || !selectRef.current) return;
+    if ((sujets as readonly string[]).includes(voulu)) {
+      selectRef.current.value = voulu;
+    }
+  }, []);
 
   if (envoye) {
     return (
@@ -33,12 +48,18 @@ export default function ContactForm() {
       className="form"
       onSubmit={(e) => {
         e.preventDefault();
-        setEnvoye(true);
+        // Le délai simule l'aller-retour réseau, pour que l'état de chargement
+        // du bouton soit visible tel qu'il le sera une fois le formulaire branché.
+        setEnvoiEnCours(true);
+        window.setTimeout(() => {
+          setEnvoiEnCours(false);
+          setEnvoye(true);
+        }, 700);
       }}
     >
       <div className="field field--full">
         <label htmlFor="sujet">Votre demande concerne</label>
-        <select id="sujet" name="sujet" defaultValue={sujets[0]} required>
+        <select id="sujet" name="sujet" ref={selectRef} defaultValue={sujets[0]} required>
           {sujets.map((s) => (
             <option key={s} value={s}>
               {s}
@@ -90,10 +111,13 @@ export default function ContactForm() {
       </div>
 
       <div className="field field--full">
-        <button type="submit" className="btn btn--primary">
-          Envoyer ma demande
-          <ArrowRight />
+        <button type="submit" className="btn btn--primary" disabled={envoiEnCours}>
+          {envoiEnCours ? "Envoi en cours" : "Envoyer ma demande"}
+          {envoiEnCours ? <span className="spinner" aria-hidden="true" /> : <ArrowRight />}
         </button>
+        <p className="sr-only" role="status">
+          {envoiEnCours ? "Envoi de votre demande en cours" : ""}
+        </p>
       </div>
     </form>
   );

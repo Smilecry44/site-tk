@@ -87,7 +87,7 @@ export default function LeGroupe() {
             <p className="eyebrow">Nos repères</p>
             <h2 className="t-h2">Le Groupe TK à vos côtés depuis 1985.</h2>
           </header>
-          <ol className="frise">
+          <ol className="frise" data-stagger>
             {reperes.map((r) => (
               <li key={r.annee} className="frise-item reveal">
                 <span className="frise-annee">{r.annee}</span>
@@ -111,7 +111,7 @@ export default function LeGroupe() {
             </p>
           </header>
 
-          <ul className="filiales-grid">
+          <ul className="filiales-grid" data-stagger>
             {filiales.map((f) => (
               <li key={f.nom} className="filiale reveal">
                 <div className="filiale-logo">

@@ -1,5 +1,6 @@
 import Hero from "@/components/sections/hero";
 import Stats from "@/components/sections/stats";
+import Parcours from "@/components/sections/parcours";
 import Chaine from "@/components/sections/chaine";
 import Poles from "@/components/sections/poles";
 import Realisations from "@/components/sections/realisations";
@@ -12,6 +13,7 @@ export default function Home() {
     <>
       <Hero />
       <Stats />
+      <Parcours />
       <Chaine />
       <Poles />
       <Realisations />

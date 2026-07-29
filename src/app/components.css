@@ -14,7 +14,7 @@
 .skip {
   position: absolute;
   left: 1rem; top: -100px;
-  z-index: 200;
+  z-index: var(--z-skip);
   background: var(--green);
   color: #fff;
   padding: 0.7rem 1.1rem;
@@ -33,7 +33,7 @@
 .hdr {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: var(--z-header);
   background: color-mix(in srgb, var(--paper) 88%, transparent);
   backdrop-filter: saturate(1.4) blur(14px);
   border-bottom: 1px solid transparent;
@@ -138,6 +138,14 @@
 }
 @media (max-width: 860px) {
   .hdr-cta { display: none; }
+}
+@media (max-width: 860px) {
+  /* Le logo et le numéro sont les deux cibles tactiles du bandeau : 44 px. */
+  .hdr-logo, .hdr-tel {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }
 @media (max-width: 560px) {
   .hdr-in { gap: 0.75rem; min-height: 66px; }
@@ -291,9 +299,10 @@
 }
 .chaine-titre { font-size: 1.35rem; }
 .chaine-filiale {
+  font-family: var(--font-azeret), ui-monospace, monospace;
   font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted-dark);
   margin-top: 0.45rem;
@@ -392,8 +401,9 @@
   left: 0.75rem; top: 0.75rem;
   background: var(--surface);
   color: var(--forest);
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-family: var(--font-azeret), ui-monospace, monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 0.32rem 0.65rem;
@@ -404,10 +414,10 @@
 
 .reals-more { margin-top: clamp(3rem, 5vw, 4.5rem); }
 .reals-more-h {
-  font-size: 0.72rem;
-  font-family: var(--font-manrope), sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.19em;
+  font-size: 0.75rem;
+  font-family: var(--font-azeret), ui-monospace, monospace;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -436,7 +446,7 @@
    Château Le Saz
    ========================================================================== */
 .saz { position: relative; isolation: isolate; }
-.saz-media { position: absolute; inset: 0; z-index: -1; }
+.saz-media { position: absolute; inset: 0; z-index: var(--z-base); }
 .saz-media img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 45%; }
 .saz-media::after {
   content: "";
@@ -517,10 +527,10 @@
 .ftr-note { margin-top: 0.7rem; color: #93a89b; max-width: 30ch; }
 .ftr-col { display: flex; flex-direction: column; align-items: flex-start; gap: 0.55rem; }
 .ftr-h {
-  font-family: var(--font-manrope), sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.19em;
+  font-family: var(--font-azeret), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #7f978a;
   margin-bottom: 0.5rem;
@@ -554,4 +564,72 @@
 }
 @media (max-width: 560px) {
   .ftr-top { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   Sélection de parcours
+   Grille modulaire suisse : les filets naissent du fond, pas de bordures
+   dessinées carte par carte.
+   ========================================================================== */
+.parcours-grid {
+  list-style: none;
+  margin: clamp(2.5rem, 4vw, 3.5rem) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--stone);
+  border: 1px solid var(--stone);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.parcours-carte {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: var(--s-1);
+  height: 100%;
+  padding: var(--s-3);
+  background: var(--paper);
+  transition: background-color var(--t-base) var(--ease);
+}
+.parcours-carte:hover { background: var(--surface); }
+.parcours-n { color: var(--muted); }
+.parcours-titre {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-size: 1.3rem;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.parcours-detail { color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
+.parcours-fleche {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--green);
+  margin-top: var(--s-1);
+}
+.parcours-fleche svg { transition: transform var(--t-base) var(--ease); }
+/* La flèche suit sa propre direction : horizontale en interne, diagonale
+   quand le lien ouvre le site d'une filiale. */
+.parcours-carte:hover .parcours-fleche svg { transform: translateX(4px); }
+.parcours-carte:hover .parcours-fleche--diag svg { transform: translate(4px, -4px); }
+
+@media (max-width: 900px) {
+  .parcours-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .parcours-grid { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   Cibles tactiles : 44 px minimum sur mobile
+   ========================================================================== */
+@media (max-width: 860px) {
+  .ftr-col a, .ftr-social a, .arrow-link, .contact-social a {
+    min-height: 44px;
+    align-items: center;
+  }
+  .ftr-col { gap: 0; }
+  .ftr-col address { padding-block: 0.5rem; }
 }

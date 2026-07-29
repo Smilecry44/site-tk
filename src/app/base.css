@@ -19,11 +19,39 @@
   --shell: 1240px;
   --gutter: clamp(1.25rem, 5vw, 3.5rem);
 
+  /* Grille suisse : 12 colonnes, unité de base 8 px, espacements multiples. */
+  --grid-cols: 12;
+  --unit: 8px;
+  --s-1: 8px;
+  --s-2: 16px;
+  --s-3: 24px;
+  --s-4: 32px;
+  --s-6: 48px;
+  --s-8: 64px;
+  --s-10: 80px;
+  --s-12: 96px;
+  --s-16: 128px;
+
+  /* Échelle de plans, pour ne plus poser de z-index au jugé. */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 20;
+  --z-header: 30;
+  --z-overlay: 40;
+  --z-skip: 50;
+
   --r-sm: 4px;
   --r-md: 10px;
   --r-lg: 20px;
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Motion : 150-300 ms pour les micro-interactions, 450 ms maximum pour une
+     apparition, décalage de 60 ms entre les éléments d'une même grille. */
+  --t-fast: 160ms;
+  --t-base: 240ms;
+  --t-reveal: 450ms;
+  --t-stagger: 60ms;
 }
 
 @theme inline {
@@ -35,6 +63,7 @@
   --color-muted: var(--muted);
   --font-display: var(--font-newsreader);
   --font-sans: var(--font-manrope);
+  --font-mono: var(--font-azeret);
 }
 
 /* ==========================================================================
@@ -96,11 +125,13 @@ p { margin: 0; }
   color: var(--muted);
 }
 
+/* Surtitres et libellés en monospace : registre technique du bâtisseur, et
+   12 px minimum pour rester lisible sur mobile. */
 .eyebrow {
-  font-family: var(--font-manrope), sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.19em;
+  font-family: var(--font-azeret), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--green);
   display: flex;
@@ -109,10 +140,18 @@ p { margin: 0; }
 }
 .eyebrow::before {
   content: "";
-  width: 26px;
+  width: 24px;
   height: 1.5px;
   background: currentColor;
   flex: none;
+}
+
+.label-mono {
+  font-family: var(--font-azeret), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .nowrap { white-space: nowrap; }
@@ -208,13 +247,18 @@ p { margin: 0; }
    ========================================================================== */
 html[data-anim="on"] .reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+  /* Déplacement court : cela doit se lire comme un fondu, pas comme un glissement. */
+  transform: translateY(14px);
+  transition: opacity var(--t-reveal) var(--ease), transform var(--t-reveal) var(--ease);
+  transition-delay: calc(var(--i, 0) * var(--t-stagger));
 }
 html[data-anim="on"] .reveal.is-in {
   opacity: 1;
   transform: none;
 }
+/* Au-delà du sixième élément d'une grille, le décalage plafonne : sinon les
+   derniers arrivent trop tard après leur entrée dans le champ. */
+html[data-anim="on"] .reveal[style*="--i"] { transition-delay: min(calc(var(--i) * var(--t-stagger)), 360ms); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

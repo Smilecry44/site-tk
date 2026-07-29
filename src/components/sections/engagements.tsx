@@ -12,7 +12,7 @@ export default function Engagements() {
           </h2>
         </header>
 
-        <div className="eng-grid">
+        <div className="eng-grid" data-stagger>
           {engagements.map((e) => (
             <div key={e.titre} className="eng reveal">
               <hr className="rule" />

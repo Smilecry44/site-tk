@@ -18,7 +18,7 @@ export default function Realisations() {
           </p>
         </header>
 
-        <div className="reals-grid">
+        <div className="reals-grid" data-stagger>
           {programmes.map((p) => (
             <article key={p.nom} className="real reveal">
               <div className="real-media">

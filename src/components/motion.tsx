@@ -85,9 +85,42 @@ export default function Motion() {
       requestAnimationFrame(tick);
     }
 
+    /**
+     * Grilles en cascade : c'est le conteneur qui est observé, pas chaque carte.
+     * Sans cela le décalage se cumulerait avec l'entrée en champ de chaque
+     * élément et les dernières cartes arriveraient bien après les autres.
+     */
+    const groupObserver = supportsObserver
+      ? new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.querySelectorAll(".reveal").forEach(show);
+                obs.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: "0px 0px -6% 0px", threshold: 0.04 }
+        )
+      : null;
+
     /** Prend en charge les blocs pas encore vus, à l'arrivée comme après coup. */
     const scan = () => {
-      const blocks = document.querySelectorAll<HTMLElement>(".reveal:not(.is-in)");
+      document
+        .querySelectorAll<HTMLElement>("[data-stagger]:not([data-stagger-ready])")
+        .forEach((group) => {
+          group.dataset.staggerReady = "1";
+          group.querySelectorAll<HTMLElement>(".reveal").forEach((el, i) => {
+            el.style.setProperty("--i", String(i));
+          });
+          if (groupObserver) groupObserver.observe(group);
+          else group.querySelectorAll(".reveal").forEach(show);
+        });
+
+      // Les blocs isolés, hors grille en cascade, sont observés un par un.
+      const blocks = Array.from(
+        document.querySelectorAll<HTMLElement>(".reveal:not(.is-in)")
+      ).filter((el) => !el.closest("[data-stagger]"));
       if (observer) {
         blocks.forEach((el) => observer.observe(el));
       } else {
@@ -119,6 +152,7 @@ export default function Motion() {
       window.clearTimeout(safety);
       mutations.disconnect();
       observer?.disconnect();
+      groupObserver?.disconnect();
       counterObserver?.disconnect();
     };
   }, [pathname]);
