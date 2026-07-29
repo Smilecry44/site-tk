@@ -1,0 +1,232 @@
+/* ==========================================================================
+   En-tête de page interne
+   ========================================================================== */
+.page-hero { padding-block: clamp(2.5rem, 2rem + 4vw, 5rem) clamp(2.5rem, 2rem + 3vw, 4rem); }
+.page-hero-in {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: center;
+}
+.page-hero-titre { margin-top: 1.1rem; max-width: 16ch; }
+.page-hero-lead { margin-top: 1.4rem; max-width: 48ch; }
+.page-hero-cta { margin-top: 2rem; }
+.page-hero-media { margin: 0; }
+.page-hero-media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+}
+.page-hero-media figcaption {
+  margin-top: 0.85rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .page-hero-in { grid-template-columns: 1fr; }
+  .page-hero-titre { max-width: 100%; }
+}
+
+/* ==========================================================================
+   Récit du groupe
+   ========================================================================== */
+.groupe-recit-in {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+.groupe-recit-in h2 { margin-top: 1.1rem; }
+.groupe-recit-texte { display: grid; gap: 1.1rem; color: var(--muted); max-width: 52ch; }
+@media (max-width: 900px) {
+  .groupe-recit-in { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   Frise
+   ========================================================================== */
+.frise {
+  list-style: none;
+  margin: clamp(2.5rem, 4vw, 4rem) 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.frise-item {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 3rem);
+  align-items: baseline;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.frise-annee {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-size: clamp(1.9rem, 1.5rem + 1.2vw, 2.6rem);
+  line-height: 1;
+  color: var(--green-bright);
+  font-variant-numeric: tabular-nums;
+}
+.frise-texte { color: #cfdbd3; max-width: 60ch; }
+@media (max-width: 700px) {
+  .frise-item { grid-template-columns: 1fr; gap: 0.5rem; }
+}
+
+/* ==========================================================================
+   Filiales
+   ========================================================================== */
+.filiales-grid {
+  list-style: none;
+  padding: 0;
+  margin: clamp(2.5rem, 4vw, 3.5rem) 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+.filiale {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 1.35rem;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--stone);
+  border-radius: var(--r-md);
+  padding: 1.35rem;
+}
+.filiale-logo {
+  width: 118px;
+  height: 86px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.filiale-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.filiale-nom { font-size: 1.2rem; }
+.filiale-activite { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
+.filiale-lien { margin-top: 0.5rem; font-size: 0.875rem; }
+
+/* ==========================================================================
+   Page contact
+   ========================================================================== */
+.contact-in {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: start;
+}
+.contact-titre { margin-top: 1.1rem; }
+.contact-lead { margin-top: 1.3rem; }
+.contact-coords {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1.75rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--stone);
+}
+.contact-h {
+  font-family: var(--font-manrope), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.55rem;
+}
+.contact-coords address { font-style: normal; line-height: 1.6; }
+.contact-coords a:hover { color: var(--green); }
+.contact-tel {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-size: 1.75rem;
+  font-variant-numeric: tabular-nums;
+}
+.contact-social { display: grid; gap: 0.35rem; justify-items: start; }
+.contact-social a { display: inline-flex; align-items: center; gap: 0.35rem; }
+.contact-photo { margin: 2.5rem 0 0; }
+.contact-photo img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--r-md);
+}
+
+.contact-form-wrap {
+  background: var(--surface);
+  border: 1px solid var(--stone);
+  border-radius: var(--r-lg);
+  padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+}
+@media (max-width: 980px) {
+  .contact-in { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   Formulaire
+   ========================================================================== */
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+.field { display: grid; gap: 0.4rem; }
+.field--full { grid-column: 1 / -1; }
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.field-opt { font-weight: 400; color: var(--muted); }
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="tel"],
+.field select,
+.field textarea {
+  font: inherit;
+  font-size: 0.975rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--stone);
+  border-radius: var(--r-md);
+  padding: 0.75rem 0.85rem;
+  width: 100%;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+.field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 55%, calc(100% - 14px) 55%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 2.5rem;
+}
+.field textarea { resize: vertical; min-height: 8rem; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--green);
+  background: var(--surface);
+}
+.consent label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.65rem;
+  align-items: start;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.consent input { margin-top: 0.2rem; accent-color: var(--green); width: 17px; height: 17px; }
+
+.form-ok { display: grid; gap: 1rem; justify-items: start; }
+.form-ok p { color: var(--muted); max-width: 46ch; }
+
+@media (max-width: 620px) {
+  .form { grid-template-columns: 1fr; }
+}

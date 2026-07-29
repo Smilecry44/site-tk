@@ -1,0 +1,227 @@
+/* ==========================================================================
+   Tokens : identité Groupe TK (vert #188636 extrait du CSS du site source)
+   ========================================================================== */
+:root {
+  --ink: #0c1710;
+  --ink-soft: #16261d;
+  --forest: #05561b;
+  --green: #188636;
+  --green-deep: #10692a;
+  --green-bright: #4fd07c;
+  --paper: #f5f4ef;
+  --paper-2: #ecebe3;
+  --surface: #ffffff;
+  --stone: #dfddd4;
+  --stone-soft: #eceae3;
+  --muted: #57635c;
+  --muted-dark: #a9bcaf;
+
+  --shell: 1240px;
+  --gutter: clamp(1.25rem, 5vw, 3.5rem);
+
+  --r-sm: 4px;
+  --r-md: 10px;
+  --r-lg: 20px;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-forest: var(--forest);
+  --color-green: var(--green);
+  --color-paper: var(--paper);
+  --color-stone: var(--stone);
+  --color-muted: var(--muted);
+  --font-display: var(--font-newsreader);
+  --font-sans: var(--font-manrope);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+* { box-sizing: border-box; }
+
+html {
+  overflow-x: clip;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.65;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg, video { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  margin: 0;
+}
+
+p { margin: 0; }
+
+::selection { background: var(--green); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   Échelle typographique
+   ========================================================================== */
+.t-display { font-size: clamp(2.6rem, 1.85rem + 3.3vw, 4.6rem); }
+.t-h2      { font-size: clamp(2rem, 1.45rem + 2.4vw, 3.5rem); }
+.t-h3      { font-size: clamp(1.4rem, 1.2rem + 0.9vw, 1.9rem); }
+.t-lead {
+  font-size: clamp(1.075rem, 1rem + 0.45vw, 1.3rem);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.eyebrow {
+  font-family: var(--font-manrope), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 1.5px;
+  background: currentColor;
+  flex: none;
+}
+
+.nowrap { white-space: nowrap; }
+
+.on-dark { color: #eef3ef; }
+.on-dark .t-lead { color: var(--muted-dark); }
+.on-dark .eyebrow { color: var(--green-bright); }
+
+/* Sur le vert profond, le vert clair descend à 4,4:1 : on passe au menthe clair. */
+.section--forest .eyebrow { color: #a8e9c0; }
+.section--forest .arrow-link { color: #a8e9c0; }
+
+/* ==========================================================================
+   Structure
+   ========================================================================== */
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section { padding-block: clamp(4.5rem, 3rem + 6vw, 8.5rem); }
+.section--tight { padding-block: clamp(3rem, 2rem + 4vw, 5rem); }
+.section--dark { background: var(--ink); color: #eef3ef; }
+.section--forest { background: var(--forest); color: #eef3ef; }
+.section--paper2 { background: var(--paper-2); }
+
+.rule { height: 1px; background: var(--stone); border: 0; margin: 0; }
+.section--dark .rule, .section--forest .rule { background: rgba(255, 255, 255, 0.14); }
+
+/* ==========================================================================
+   Boutons
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-manrope), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  padding: 0.95rem 1.6rem;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease),
+    border-color 0.25s var(--ease);
+}
+.btn svg { flex: none; transition: transform 0.3s var(--ease); }
+.btn:hover svg { transform: translate(3px, -3px); }
+
+.btn--primary { background: var(--green); color: #fff; }
+.btn--primary:hover { background: var(--forest); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--stone);
+}
+.btn--ghost:hover { border-color: var(--ink); background: rgba(12, 23, 16, 0.04); }
+
+.on-dark .btn--ghost, .section--dark .btn--ghost, .section--forest .btn--ghost {
+  color: #eef3ef;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.on-dark .btn--ghost:hover, .section--dark .btn--ghost:hover, .section--forest .btn--ghost:hover {
+  border-color: #eef3ef;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn--light { background: #fff; color: var(--ink); }
+.btn--light:hover { background: var(--paper-2); }
+
+/* Lien fléché */
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--green);
+  padding-block: 0.2rem;
+}
+.arrow-link svg { transition: transform 0.3s var(--ease); }
+.arrow-link:hover svg { transform: translate(3px, -3px); }
+.on-dark .arrow-link, .section--dark .arrow-link, .section--forest .arrow-link {
+  color: var(--green-bright);
+}
+
+/* ==========================================================================
+   Reveals : le contenu est visible par défaut, l'animation ne fait qu'enrichir
+   ========================================================================== */
+html[data-anim="on"] .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+}
+html[data-anim="on"] .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  html[data-anim="on"] .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
