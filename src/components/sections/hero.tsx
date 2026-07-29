@@ -8,7 +8,9 @@ export default function Hero() {
     <section className="hero">
       <div className="shell hero-in">
         <div className="hero-copy reveal">
-          <p className="eyebrow">Grand Ouest, depuis 1985</p>
+          {/* Seule marque de contexte du site, en bas de casse : une ligne de
+              texte, pas une étiquette répétée de section en section. */}
+          <p className="kicker">Grand Ouest, depuis 1985</p>
           <h1 className="t-display">
             Du terrain à la remise des clés, un seul groupe.
           </h1>

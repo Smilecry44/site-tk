@@ -16,7 +16,6 @@ export default function Contact() {
       <div className="shell contact-in">
         <div className="contact-aside">
           <div className="reveal">
-            <p className="eyebrow">Contact</p>
             <h1 className="t-h2 contact-titre">Dites-nous ce que vous cherchez.</h1>
             <p className="t-lead contact-lead">
               Une question sur un programme, un terrain à vendre, un besoin de

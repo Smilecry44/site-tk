@@ -245,42 +245,36 @@ export const engagements = [
  */
 export const parcours = [
   {
-    n: "01",
     titre: "J’ai un terrain à vendre ou à diviser",
     detail: "Étude de faisabilité, division foncière, accompagnement des démarches.",
     href: "/contact?sujet=" + encodeURIComponent("Vendre ou diviser mon terrain"),
     externe: false,
   },
   {
-    n: "02",
     titre: "Je porte un projet pour une collectivité",
     detail: "Aménagement de lotissements clé en main, du foncier à la livraison.",
     href: "/contact?sujet=" + encodeURIComponent("Projet avec une collectivité"),
     externe: false,
   },
   {
-    n: "03",
     titre: "Je cherche un logement neuf",
     detail: "Appartements et terrains à bâtir en Loire-Atlantique et en Vendée.",
     href: "https://www.tkpromotion.fr/programmes-immobiliers-neufs/",
     externe: true,
   },
   {
-    n: "04",
     titre: "Je veux faire construire ma maison",
     detail: "Maisons individuelles sur mesure, conformes à la RE 2020.",
     href: "https://www.maisonseva.fr/",
     externe: true,
   },
   {
-    n: "05",
     titre: "Je recrute des intérimaires",
     detail: "Bâtiment, grande distribution, automobile, entretien et nettoyage.",
     href: "https://www.interimtk.fr/",
     externe: true,
   },
   {
-    n: "06",
     titre: "J’organise un événement",
     detail: "Cinq hectares de parc et un château à quelques minutes de Nantes.",
     href: "https://www.chateaulesaz.fr/",

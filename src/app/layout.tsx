@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Azeret_Mono, Manrope, Newsreader } from "next/font/google";
+import { Manrope, Newsreader } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
@@ -17,14 +17,6 @@ const newsreader = Newsreader({
   weight: ["300", "400", "500"],
   style: ["normal", "italic"],
   variable: "--font-newsreader",
-});
-
-/** Registre technique du bâtisseur : surtitres, libellés, métadonnées. */
-const azeret = Azeret_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500"],
-  variable: "--font-azeret",
 });
 
 export const metadata: Metadata = {
@@ -53,7 +45,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${manrope.variable} ${newsreader.variable} ${azeret.variable}`}
+      className={`${manrope.variable} ${newsreader.variable}`}
     >
       <body>
         <a href="#contenu" className="skip">

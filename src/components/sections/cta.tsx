@@ -7,7 +7,6 @@ export default function Cta() {
     <section className="section section--forest cta" aria-labelledby="cta-titre">
       <div className="shell cta-in">
         <div className="reveal">
-          <p className="eyebrow">Parlons-en</p>
           <h2 id="cta-titre" className="t-h2">
             Un terrain, un projet, un besoin de main-d’œuvre&nbsp;?
           </h2>

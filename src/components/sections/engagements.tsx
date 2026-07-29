@@ -5,7 +5,6 @@ export default function Engagements() {
     <section className="section engagements" aria-labelledby="eng-titre">
       <div className="shell">
         <header className="sec-head reveal">
-          <p className="eyebrow">Nos engagements</p>
           <h2 id="eng-titre" className="t-h2">
             Un modèle d’entreprise engagée, au service de ses clients, de ses partenaires
             et des acteurs publics.

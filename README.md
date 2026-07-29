@@ -20,11 +20,15 @@ Le site suit le **modernisme suisse** : grille de 12 colonnes, unité de base de
 filets plutôt que bordures, une seule couleur d’accent. C’est le registre des sites
 d’architecture et de collectivités, et il vieillit mieux que les effets à la mode.
 
-Trois familles sur un axe de contraste : **Newsreader** en titres, **Manrope** en texte,
-**Azeret Mono** pour les surtitres, libellés et numéros. Le monospace donne le registre
-technique du bâtisseur sans coûter en lisibilité.
+Deux familles sur un axe de contraste : **Newsreader** en titres, **Manrope** en texte.
+Pas de troisième famille monospace : sur une marque qui n’est pas technique, le monospace
+est un déguisement.
 
-Deux recommandations d’outillage ont été écartées volontairement. Le **glassmorphisme**,
+Le fond n’est pas un blanc cassé chaud : la bande crème est devenue le défaut générique
+des interfaces générées. Le vert de marque porte environ un tiers de la surface au lieu
+de se limiter aux boutons, et aucun surtitre en petites capitales ne coiffe les sections.
+
+Trois recommandations d’outillage ont été écartées volontairement. Le **glassmorphisme**,
 proposé comme style pour l’immobilier, est un effet daté qui coûte en performance et en
 contraste, et ne dit rien d’un groupe familial de quarante ans. Une **palette teal et
 bleu** aurait remplacé le vert `#188636` du logo, alors que l’identité est le seul actif
@@ -98,14 +102,17 @@ tkpromotion.fr, ou de l’infographie officielle « Le Groupe TK en chiffres ».
   vérifié automatiquement.
 - **Typographie française.** Aucun tiret cadratin, apostrophes typographiques, espaces
   insécables avant les deux-points et dans les nombres.
-- **Contrastes.** Corps et libellés vérifiés au niveau AA, y compris les surtitres verts
-  sur fond vert profond, éclaircis pour cette raison.
+- **Contrastes.** Vérifiés automatiquement sur les trois pages : chaque nœud de texte est
+  mesuré contre son fond effectif, seuils 4,5:1 et 3:1. Zéro échec. Le texte posé sur la
+  photo du château est exclu de la mesure et vérifié à l’œil.
 
 ## Vérifications effectuées
 
 Build et lint sans erreur. Rendu contrôlé au navigateur (Edge headless) sur les trois
-pages, en 1440 px et en 390 px réels, avec et sans animations, plus un test piloté du
-menu mobile. Aucun débordement horizontal sur aucune des trois pages en 390 px.
+pages, en 1440 px et en 390 px réels, avec et sans animations. Quatre tests pilotés :
+navigation sur cinq étapes sans bloc masqué, contrastes sur les trois pages, cibles
+tactiles à 390 px, et test de recouvrement de la section Château Le Saz. Aucun
+débordement horizontal sur aucune des trois pages en 390 px.
 
 ## Suites possibles, non faites
 

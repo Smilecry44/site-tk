@@ -15,7 +15,6 @@ export default function Saz() {
       </div>
       <div className="shell saz-in">
         <div className="saz-card reveal">
-          <p className="eyebrow">Événementiel</p>
           <h2 id="saz-titre" className="t-h2">
             Château Le Saz
           </h2>

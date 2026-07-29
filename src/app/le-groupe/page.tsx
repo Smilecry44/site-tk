@@ -17,7 +17,6 @@ export default function LeGroupe() {
       <section className="page-hero">
         <div className="shell page-hero-in">
           <div className="reveal">
-            <p className="eyebrow">Le groupe</p>
             <h1 className="t-h2 page-hero-titre">
               Un groupe familial nantais, bâtisseur depuis 1985.
             </h1>
@@ -53,7 +52,7 @@ export default function LeGroupe() {
       <section className="section groupe-recit">
         <div className="shell groupe-recit-in">
           <div className="reveal">
-            <p className="eyebrow">Solidité et esprit de conquête</p>
+            <p className="kicker">Solidité et esprit de conquête</p>
             <h2 className="t-h2">
               Nous maîtrisons l’ensemble de la chaîne immobilière, de la conception à la
               promotion.
@@ -84,7 +83,6 @@ export default function LeGroupe() {
       <section id="reperes" className="section section--dark reperes">
         <div className="shell">
           <header className="sec-head reveal">
-            <p className="eyebrow">Nos repères</p>
             <h2 className="t-h2">Le Groupe TK à vos côtés depuis 1985.</h2>
           </header>
           <ol className="frise" data-stagger>
@@ -98,11 +96,10 @@ export default function LeGroupe() {
         </div>
       </section>
 
-      <section className="section section--paper2 filiales">
+      <section className="section section--alt filiales">
         <div className="shell">
           <header className="sec-head--split sec-head reveal">
             <div>
-              <p className="eyebrow">Nos filiales</p>
               <h2 className="t-h2">Un métier, une équipe, une société.</h2>
             </div>
             <p className="t-lead">
@@ -141,7 +138,6 @@ export default function LeGroupe() {
       <section className="section section--forest cta">
         <div className="shell cta-in">
           <div className="reveal">
-            <p className="eyebrow">Venir nous voir</p>
             <h2 className="t-h2">Nos équipes sont réunies sous un même toit.</h2>
             <p className="t-lead cta-lead">
               {contact.adresse}, {contact.codePostal} {contact.ville}. Au nord de Nantes,

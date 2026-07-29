@@ -8,7 +8,6 @@ export default function Realisations() {
       <div className="shell">
         <header className="sec-head sec-head--split reveal">
           <div>
-            <p className="eyebrow">Nos opérations</p>
             <h2 className="t-h2">Ce que nous avons déjà bâti.</h2>
           </div>
           <p className="t-lead">

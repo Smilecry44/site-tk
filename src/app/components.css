@@ -34,14 +34,14 @@
   position: sticky;
   top: 0;
   z-index: var(--z-header);
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: saturate(1.4) blur(14px);
   border-bottom: 1px solid transparent;
   transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease);
 }
 .hdr.is-scrolled {
   border-bottom-color: var(--stone);
-  background: color-mix(in srgb, var(--paper) 96%, transparent);
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
 }
 
 .hdr-in {
@@ -116,7 +116,7 @@
 
 .hdr-panel {
   border-top: 1px solid var(--stone);
-  background: var(--paper);
+  background: var(--bg);
   padding: 1.5rem var(--gutter) 2rem;
   max-height: calc(100dvh - 76px);
   overflow-y: auto;
@@ -267,7 +267,7 @@
   align-items: end;
 }
 .chaine-head h2 { margin-top: 1.1rem; }
-.chaine-head em { font-style: italic; color: var(--green-bright); }
+.chaine-head em { font-style: italic; color: var(--mint); }
 
 .chaine-list {
   list-style: none;
@@ -292,14 +292,14 @@
 .chaine-n {
   font-family: var(--font-newsreader), Georgia, serif;
   font-size: 1.5rem;
-  color: var(--green-bright);
+  color: var(--mint);
   line-height: 1.2;
   flex: none;
   font-variant-numeric: tabular-nums;
 }
 .chaine-titre { font-size: 1.35rem; }
 .chaine-filiale {
-  font-family: var(--font-azeret), ui-monospace, monospace;
+  font-family: var(--font-manrope), sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.12em;
@@ -346,7 +346,8 @@
   font-family: var(--font-newsreader), Georgia, serif;
   font-style: italic;
   font-size: 1.15rem;
-  color: var(--green);
+  /* #188636 tombe a 4,2:1 sur le fond clair : vert profond pour le petit texte. */
+  color: var(--forest);
 }
 .pole-copy h3 { margin-top: 0.4rem; }
 .pole-texte { margin-top: 1rem; color: var(--muted); max-width: 46ch; }
@@ -401,7 +402,7 @@
   left: 0.75rem; top: 0.75rem;
   background: var(--surface);
   color: var(--forest);
-  font-family: var(--font-azeret), ui-monospace, monospace;
+  font-family: var(--font-manrope), sans-serif;
   font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -415,7 +416,7 @@
 .reals-more { margin-top: clamp(3rem, 5vw, 4.5rem); }
 .reals-more-h {
   font-size: 0.75rem;
-  font-family: var(--font-azeret), ui-monospace, monospace;
+  font-family: var(--font-manrope), sans-serif;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -451,14 +452,19 @@
 .saz-media::after {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(100deg, rgba(5, 18, 10, 0.92) 0%, rgba(5, 18, 10, 0.62) 42%, rgba(5, 18, 10, 0.04) 74%);
+  background: linear-gradient(100deg, rgba(4, 16, 9, 0.95) 0%, rgba(4, 16, 9, 0.88) 34%, rgba(4, 16, 9, 0.5) 58%, rgba(4, 16, 9, 0.06) 82%);
 }
-.saz-in { padding-block: clamp(5rem, 4rem + 8vw, 10rem); }
+/* Le média est un descendant positionné : sans plan explicite sur le contenu,
+   il repeint par-dessus le texte et la section devient une photo muette. */
+.saz-in {
+  position: relative;
+  z-index: var(--z-raised);
+  padding-block: clamp(5rem, 4rem + 8vw, 10rem);
+}
 .saz-card { max-width: 34rem; color: #eef3ef; }
 .saz-card h2 { margin-top: 1rem; }
 .saz-texte { margin-top: 1.3rem; color: #d5e0d9; font-size: clamp(1.02rem, 1rem + 0.25vw, 1.15rem); }
 .saz-card .btn { margin-top: 2rem; }
-.saz-card .eyebrow { color: var(--green-bright); }
 @media (max-width: 760px) {
   .saz-media::after {
     background: linear-gradient(180deg, rgba(6, 20, 12, 0.55) 0%, rgba(6, 20, 12, 0.92) 52%);
@@ -487,7 +493,7 @@
   align-items: center;
 }
 .cta h2 { margin-top: 1.1rem; }
-.cta-lead { margin-top: 1.2rem; color: #cfe0d5; max-width: 42ch; }
+.cta-lead { margin-top: 1.2rem; max-width: 42ch; }
 .cta-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 1.2rem; }
 .cta-tel { display: grid; gap: 0.1rem; }
 .cta-tel span { font-size: 0.85rem; color: #b9cfc2; }
@@ -497,7 +503,7 @@
   font-weight: 400;
   font-variant-numeric: tabular-nums;
 }
-.cta-tel:hover strong { color: var(--green-bright); }
+.cta-tel:hover strong { color: var(--mint); }
 @media (max-width: 860px) {
   .cta-in { grid-template-columns: 1fr; }
 }
@@ -506,7 +512,7 @@
    Pied de page
    ========================================================================== */
 .ftr {
-  background: var(--ink);
+  background: var(--forest-deep);
   color: #dce6df;
   padding-block: clamp(3.5rem, 3rem + 3vw, 5.5rem) 2rem;
   font-size: 0.925rem;
@@ -527,12 +533,12 @@
 .ftr-note { margin-top: 0.7rem; color: #93a89b; max-width: 30ch; }
 .ftr-col { display: flex; flex-direction: column; align-items: flex-start; gap: 0.55rem; }
 .ftr-h {
-  font-family: var(--font-azeret), ui-monospace, monospace;
+  font-family: var(--font-manrope), sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #7f978a;
+  color: #9fb8a8;
   margin-bottom: 0.5rem;
 }
 .ftr-col a, .ftr-col span, .ftr-col address {
@@ -542,7 +548,7 @@
   font-style: normal;
   color: #dce6df;
 }
-.ftr-col a:hover { color: var(--green-bright); }
+.ftr-col a:hover { color: var(--mint); }
 .ftr-tel {
   font-family: var(--font-newsreader), Georgia, serif;
   font-size: 1.5rem;
@@ -556,7 +562,7 @@
   gap: 0.75rem 2rem;
   justify-content: space-between;
   padding-top: 1.5rem;
-  color: #7f978a;
+  color: #9fb8a8;
   font-size: 0.85rem;
 }
 @media (max-width: 900px) {
@@ -585,11 +591,11 @@
 }
 .parcours-carte {
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto 1fr auto;
   gap: var(--s-1);
   height: 100%;
   padding: var(--s-3);
-  background: var(--paper);
+  background: var(--bg);
   transition: background-color var(--t-base) var(--ease);
 }
 .parcours-carte:hover { background: var(--surface); }

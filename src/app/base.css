@@ -2,19 +2,28 @@
    Tokens : identité Groupe TK (vert #188636 extrait du CSS du site source)
    ========================================================================== */
 :root {
+  /* Encre, pour le texte sur fond clair. */
   --ink: #0c1710;
-  --ink-soft: #16261d;
+
+  /* Stratégie de couleur : engagée. Le vert de marque porte les grandes surfaces
+     au lieu de se limiter aux boutons. Aucun hex de marque n'est inventé :
+     #188636 et #05561b viennent du logo et du CSS du site source. */
+  --forest-deep: #063a14;
   --forest: #05561b;
   --green: #188636;
-  --green-deep: #10692a;
   --green-bright: #4fd07c;
-  --paper: #f5f4ef;
-  --paper-2: #ecebe3;
+  --mint: #a8e9c0;
+
+  /* Fonds : teinte prise sur la teinte de la marque, pas vers le chaud. Le blanc
+     cassé crème est le défaut générique du moment, on n'y retourne pas. */
+  --bg: #f1f4f0;
+  --bg-2: #e6ebe4;
   --surface: #ffffff;
-  --stone: #dfddd4;
-  --stone-soft: #eceae3;
-  --muted: #57635c;
-  --muted-dark: #a9bcaf;
+  --stone: #d5ddd3;
+  --stone-soft: #e6ebe4;
+  --muted: #55635b;
+  /* 5,4:1 sur le vert profond, 7,9:1 sur le vert tres fonce. */
+  --muted-dark: #bccfc3;
 
   --shell: 1240px;
   --gutter: clamp(1.25rem, 5vw, 3.5rem);
@@ -58,12 +67,11 @@
   --color-ink: var(--ink);
   --color-forest: var(--forest);
   --color-green: var(--green);
-  --color-paper: var(--paper);
+  --color-bg: var(--bg);
   --color-stone: var(--stone);
   --color-muted: var(--muted);
   --font-display: var(--font-newsreader);
   --font-sans: var(--font-manrope);
-  --font-mono: var(--font-azeret);
 }
 
 /* ==========================================================================
@@ -80,7 +88,7 @@ html {
 body {
   margin: 0;
   overflow-x: clip;
-  background: var(--paper);
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
@@ -125,44 +133,27 @@ p { margin: 0; }
   color: var(--muted);
 }
 
-/* Surtitres et libellés en monospace : registre technique du bâtisseur, et
-   12 px minimum pour rester lisible sur mobile. */
-.eyebrow {
-  font-family: var(--font-azeret), ui-monospace, monospace;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--green);
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-.eyebrow::before {
-  content: "";
-  width: 24px;
-  height: 1.5px;
-  background: currentColor;
-  flex: none;
-}
+/* Pas de surtitre en petites capitales espacées au-dessus de chaque section :
+   c'est le marqueur d'interface générée le plus répandu. Le rythme des sections
+   vient de l'échelle typographique et des changements de fond. Ce qu'un surtitre
+   apportait d'information est reversé dans le titre ou le chapô. */
 
-.label-mono {
-  font-family: var(--font-azeret), ui-monospace, monospace;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+/* Une seule marque de contexte, en bas de casse, sans interlettrage : c'est une
+   ligne de texte, pas une étiquette. */
+.kicker {
+  font-size: 0.925rem;
+  color: var(--forest);
+  font-weight: 600;
 }
 
 .nowrap { white-space: nowrap; }
 
 .on-dark { color: #eef3ef; }
-.on-dark .t-lead { color: var(--muted-dark); }
-.on-dark .eyebrow { color: var(--green-bright); }
-
-/* Sur le vert profond, le vert clair descend à 4,4:1 : on passe au menthe clair. */
-.section--forest .eyebrow { color: #a8e9c0; }
-.section--forest .arrow-link { color: #a8e9c0; }
+/* Le chapô est gris foncé par défaut : sur les fonds verts profonds il tombait
+   à 2:1. Les sections sombres le repassent en vert très clair. */
+.on-dark .t-lead,
+.section--dark .t-lead,
+.section--forest .t-lead { color: var(--muted-dark); }
 
 /* ==========================================================================
    Structure
@@ -176,9 +167,9 @@ p { margin: 0; }
 
 .section { padding-block: clamp(4.5rem, 3rem + 6vw, 8.5rem); }
 .section--tight { padding-block: clamp(3rem, 2rem + 4vw, 5rem); }
-.section--dark { background: var(--ink); color: #eef3ef; }
+.section--dark { background: var(--forest-deep); color: #eef3ef; }
 .section--forest { background: var(--forest); color: #eef3ef; }
-.section--paper2 { background: var(--paper-2); }
+.section--alt { background: var(--bg-2); }
 
 .rule { height: 1px; background: var(--stone); border: 0; margin: 0; }
 .section--dark .rule, .section--forest .rule { background: rgba(255, 255, 255, 0.14); }
@@ -224,7 +215,7 @@ p { margin: 0; }
 }
 
 .btn--light { background: #fff; color: var(--ink); }
-.btn--light:hover { background: var(--paper-2); }
+.btn--light:hover { background: var(--bg-2); }
 
 /* Lien fléché */
 .arrow-link {
@@ -233,13 +224,15 @@ p { margin: 0; }
   gap: 0.5rem;
   font-weight: 600;
   font-size: 0.95rem;
-  color: var(--green);
+  /* #188636 ne fait que 4,2:1 sur le fond clair : le vert profond porte le petit
+     texte, le vert de marque est réservé aux aplats et aux boutons. */
+  color: var(--forest);
   padding-block: 0.2rem;
 }
 .arrow-link svg { transition: transform 0.3s var(--ease); }
 .arrow-link:hover svg { transform: translate(3px, -3px); }
 .on-dark .arrow-link, .section--dark .arrow-link, .section--forest .arrow-link {
-  color: var(--green-bright);
+  color: var(--mint);
 }
 
 /* ==========================================================================

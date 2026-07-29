@@ -8,7 +8,6 @@ export default function Parcours() {
       <div className="shell">
         <header className="sec-head--split sec-head reveal">
           <div>
-            <p className="eyebrow">Par où commencer</p>
             <h2 id="parcours-titre" className="t-h2">
               Vous êtes ici pour quoi&nbsp;?
             </h2>
@@ -23,7 +22,9 @@ export default function Parcours() {
           {parcours.map((p) => {
             const contenu = (
               <>
-                <span className="parcours-n label-mono">{p.n}</span>
+                {/* Pas de numérotation : ces six portes d'entrée sont des publics
+                    parallèles, pas une séquence. Numéroter n'apporterait aucune
+                    information et ne serait que de l'échafaudage décoratif. */}
                 <span className="parcours-titre">{p.titre}</span>
                 <span className="parcours-detail">{p.detail}</span>
                 <span
@@ -36,7 +37,7 @@ export default function Parcours() {
             );
 
             return (
-              <li key={p.n} className="reveal">
+              <li key={p.titre} className="reveal">
                 {p.externe ? (
                   <a
                     className="parcours-carte"

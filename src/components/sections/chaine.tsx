@@ -7,7 +7,6 @@ export default function Chaine() {
       <div className="shell">
         <div className="chaine-head reveal">
           <div>
-            <p className="eyebrow">Notre différence</p>
             <h2 className="t-h2">
               Sept métiers dans la même maison. <em>Un seul interlocuteur.</em>
             </h2>

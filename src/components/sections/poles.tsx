@@ -7,7 +7,6 @@ export default function Poles() {
     <section id="metiers" className="section poles">
       <div className="shell">
         <header className="sec-head reveal">
-          <p className="eyebrow">Nos métiers</p>
           <h2 className="t-h2">Trois pôles, une même manière de travailler.</h2>
         </header>
       </div>
