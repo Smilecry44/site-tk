@@ -13,16 +13,18 @@
 
 .skip {
   position: absolute;
-  left: 1rem; top: -100px;
+  left: 1rem; top: 1rem;
   z-index: var(--z-skip);
   background: var(--green);
   color: #fff;
   padding: 0.7rem 1.1rem;
   border-radius: var(--r-md);
   font-weight: 600;
-  transition: top 0.2s var(--ease);
+  /* translate plutot que top : on n_anime pas une propriete de mise en page. */
+  transform: translateY(-200%);
+  transition: transform 0.2s var(--ease);
 }
-.skip:focus { top: 1rem; }
+.skip:focus { transform: none; }
 
 /* ==========================================================================
    En-tête
@@ -69,13 +71,16 @@
 .hdr-link::after {
   content: "";
   position: absolute;
-  left: 0; right: 100%;
+  left: 0; right: 0;
   bottom: 0;
   height: 1.5px;
   background: var(--green);
-  transition: right 0.35s var(--ease);
+  /* scaleX plutot que right : idem, transform seulement. */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease);
 }
-.hdr-link:hover::after { right: 0; }
+.hdr-link:hover::after { transform: scaleX(1); }
 
 .hdr-actions {
   display: flex;
