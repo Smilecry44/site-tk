@@ -1,0 +1,812 @@
+@import 'tailwindcss';
+
+/* ==================================================================
+   GROUPE TK — socle visuel
+
+   Identité conservée : le vert de marque #188636 est celui relevé dans le
+   CSS du site source. Il est décliné en une gamme de neutres CHAUDS
+   (papier, sable, encre) plutôt qu'en blanc clinique, pour l'aspect
+   « éditorial et chaleureux ». Tous les couples texte/fond sont vérifiés AA.
+
+   Organisation : @theme pour les jetons, puis @layer base et
+   @layer components. Les classes custom vivent DANS la couche components
+   pour que les utilitaires Tailwind puissent les surcharger (sinon un
+   simple `lg:hidden` ne gagne pas contre un `.ma-classe { display: grid }`).
+   ================================================================== */
+
+@theme {
+  /* --- Couleurs ------------------------------------------------- */
+  /* Vert de marque, tel quel. Blanc sur vert = 4,67:1 (AA texte courant). */
+  --color-vert: #188636;
+  /* Vert profond : 8,05:1 sur papier. C'est LUI pour le petit texte vert,
+     le vert de marque ne passant que 4,21:1 en petite taille. */
+  --color-vert-fonce: #05561b;
+  /* Vert nuit : fond des sections sombres. Papier dessus = 13,4:1. */
+  --color-nuit: #0a2e16;
+  --color-nuit-clair: #113c1e;
+
+  --color-ink: #16180f;
+  --color-paper: #f6f3ec;
+  --color-sand: #eae4d9;
+  --color-line: #d8d1c4;
+  /* Gris chaud secondaire : 5,90:1 sur papier. */
+  --color-muted: #5c5f52;
+
+  /* --- Typographie ---------------------------------------------- */
+  --font-display: var(--font-newsreader), 'Iowan Old Style', Georgia, serif;
+  --font-sans: var(--font-archivo), 'Helvetica Neue', Arial, sans-serif;
+
+  /* Échelle fluide, déclarée dans le namespace --text-* pour que Tailwind
+     génère de vraies utilitaires de taille (text-display, text-h1…).
+     Écrire text-[var(--x)] ne marche pas : la valeur est ambiguë et se
+     compile en `color`. */
+  --text-display: clamp(2.85rem, 7.4vw, 6.5rem);
+  --text-display--line-height: 0.97;
+  --text-h1: clamp(2.1rem, 4.6vw, 3.75rem);
+  --text-h1--line-height: 1.05;
+  --text-h2: clamp(1.7rem, 3.1vw, 2.6rem);
+  --text-h2--line-height: 1.1;
+  --text-h3: clamp(1.2rem, 1.7vw, 1.6rem);
+  --text-h3--line-height: 1.22;
+  --text-lead: clamp(1.0625rem, 1.35vw, 1.35rem);
+  --text-lead--line-height: 1.55;
+
+  /* --- Courbes -------------------------------------------------- */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Mesures d'espacement, hors namespace Tailwind : utilisées en valeurs
+   arbitraires de padding (py-[var(--rythme)]), non ambiguës. */
+:root {
+  --gutter: clamp(1.25rem, 5vw, 5.5rem);
+  --rythme: clamp(4.5rem, 9vw, 9.5rem);
+}
+
+/* ==================================================================
+   BASE
+   ================================================================== */
+
+@layer base {
+  html {
+    /* clip et non hidden : pas de conteneur de défilement parasite. */
+    overflow-x: clip;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    overflow-x: clip;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.05vw, 1.0625rem);
+    line-height: 1.65;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  ::selection {
+    background: var(--color-vert);
+    color: #fff;
+  }
+
+  /* Focus clavier toujours visible, y compris sur photo sombre. */
+  :focus-visible {
+    outline: 2px solid var(--color-vert);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .sur-sombre :focus-visible,
+  .sur-sombre:focus-visible {
+    outline-color: #fff;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Le champ select ne doit pas garder la flèche natice de l'OS. */
+  select.champ {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--color-muted) 50%),
+      linear-gradient(135deg, var(--color-muted) 50%, transparent 50%);
+    background-position:
+      calc(100% - 1.25rem) 1.4rem,
+      calc(100% - 1rem) 1.4rem;
+    background-size:
+      5px 5px,
+      5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 2.75rem;
+  }
+}
+
+/* ==================================================================
+   COMPOSANTS
+   ================================================================== */
+
+@layer components {
+  /* --- Écriture ------------------------------------------------- */
+
+  .mesure {
+    max-width: 62ch;
+  }
+
+  .cadre {
+    width: 100%;
+    max-width: 96rem;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Surtitre : petites capitales espacées, précédées d'un filet. */
+  .surtitre {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-vert-fonce);
+    line-height: 1;
+  }
+
+  .surtitre::before {
+    content: '';
+    width: clamp(1.5rem, 3vw, 3rem);
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+    flex: none;
+  }
+
+  .sur-sombre .surtitre {
+    color: #a9c9b3;
+  }
+
+  /* Chiffre éditorial. */
+  .chiffre {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+
+  /* --- Liens et boutons ----------------------------------------- */
+
+  /* CTA dominant unique du site. */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.875rem;
+    padding: 1.0625rem 2rem;
+    min-height: 3.25rem;
+    background: var(--color-vert);
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    line-height: 1;
+    border: 0;
+    cursor: pointer;
+    transition:
+      background-color 220ms var(--ease-quint),
+      transform 220ms var(--ease-quint);
+  }
+
+  .cta:hover {
+    background: var(--color-vert-fonce);
+  }
+
+  .cta:active {
+    transform: translateY(1px);
+  }
+
+  .cta:disabled {
+    opacity: 0.65;
+    cursor: progress;
+  }
+
+  .cta svg {
+    transition: transform 260ms var(--ease-expo);
+  }
+
+  .cta:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* Lien texte, souligné qui se retire au survol. */
+  .lien {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-vert-fonce);
+    padding-bottom: 0.25rem;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 320ms var(--ease-expo);
+  }
+
+  .lien:hover,
+  a:hover .lien {
+    background-size: 28% 1px;
+  }
+
+  .sur-sombre .lien {
+    color: #fff;
+  }
+
+  .lien svg {
+    transition: transform 260ms var(--ease-expo);
+  }
+
+  .lien:hover svg,
+  a:hover .lien svg {
+    transform: translateX(4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta,
+    .cta svg,
+    .lien,
+    .lien svg {
+      transition-duration: 1ms;
+    }
+  }
+
+  /* --- Reveals au scroll ---------------------------------------- */
+  /* Le contenu est VISIBLE par défaut. Le JS pose `reveal-actif` sur
+     <html> ; sans JS, en onglet caché, en headless ou en reduced-motion,
+     rien n'est masqué. Voir components/Effets.tsx pour le filet. */
+
+  html.reveal-actif [data-reveal]:not([data-vu]) {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  [data-reveal] {
+    transition:
+      opacity 720ms var(--ease-quint),
+      transform 720ms var(--ease-quint);
+    transition-delay: var(--reveal-delai, 0ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.reveal-actif [data-reveal]:not([data-vu]) {
+      opacity: 1;
+      transform: none;
+    }
+    [data-reveal] {
+      transition: none;
+    }
+  }
+
+  /* --- HÉROS TRIPTYQUE : le moment signature -------------------- */
+
+  .tript {
+    position: relative;
+    display: flex;
+    height: 100svh;
+    min-height: 34rem;
+    background: var(--color-nuit);
+  }
+
+  /* L'énoncé « Un groupe, trois univers ».
+     Mobile : bloc d'ouverture sombre, en tête de la pile (order: -1).
+     Desktop : superposition centrée sur les trois panneaux, qui se retire
+     dès qu'un pôle est visé. Un seul noeud DOM, donc aucun doublon. */
+  .tript-enonce {
+    order: -1;
+    background: var(--color-nuit);
+    color: #fff;
+    padding: calc(6.5rem + env(safe-area-inset-top)) var(--gutter) clamp(2.5rem, 7vw, 3.5rem);
+  }
+
+  .tript-panneau {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    display: block;
+    overflow: hidden;
+    isolation: isolate;
+    transition: flex-grow 900ms var(--ease-expo);
+  }
+
+  /* Séparateur : un filet, pas une bordure. */
+  .tript-panneau + .tript-panneau::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 1px;
+    background: rgb(255 255 255 / 0.22);
+    z-index: 3;
+    transition: opacity 500ms var(--ease-quint);
+  }
+
+  .tript[data-actif] .tript-panneau + .tript-panneau::before {
+    opacity: 0;
+  }
+
+  .tript-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+  }
+
+  .tript-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Léger sur-cadrage : évite les bords vides pendant l'élargissement. */
+    transform: scale(1.06);
+    transition:
+      transform 1200ms var(--ease-expo),
+      filter 700ms var(--ease-quint);
+    filter: saturate(0.9) brightness(0.82);
+  }
+
+  /* Voile dégradé : garantit le contraste du texte blanc sur photo. */
+  .tript-voile {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    background:
+      linear-gradient(
+        to top,
+        rgb(6 26 13 / 0.92) 0%,
+        rgb(6 26 13 / 0.45) 34%,
+        rgb(6 26 13 / 0.1) 66%
+      ),
+      linear-gradient(to bottom, rgb(6 26 13 / 0.55) 0%, rgb(6 26 13 / 0) 40%);
+    transition: opacity 700ms var(--ease-quint);
+  }
+
+  .tript-titre {
+    font-size: clamp(1.85rem, 3.4vw, 3.1rem);
+  }
+
+  .tript-contenu {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(1.5rem, 2.6vw, 2.75rem);
+    color: #fff;
+  }
+
+  /* Desktop : élargissement au survol / focus. */
+  @media (min-width: 60rem) {
+    .tript-enonce {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: grid;
+      place-items: center;
+      padding: var(--gutter);
+      text-align: center;
+      /* Voile local : le texte doit tenir par-dessus les trois photos. */
+      background:
+        radial-gradient(
+          58% 52% at 50% 46%,
+          rgb(6 26 13 / 0.86) 0%,
+          rgb(6 26 13 / 0.62) 52%,
+          rgb(6 26 13 / 0) 100%
+        ),
+        linear-gradient(
+          to bottom,
+          rgb(6 26 13 / 0) 12%,
+          rgb(6 26 13 / 0.34) 46%,
+          rgb(6 26 13 / 0) 82%
+        );
+      pointer-events: none;
+      transition:
+        opacity 620ms var(--ease-quint),
+        transform 900ms var(--ease-expo);
+    }
+
+    .tript[data-actif] .tript-enonce {
+      opacity: 0;
+      transform: scale(0.985);
+    }
+
+    .tript-panneau[data-etat='actif'] {
+      flex-grow: 2.35;
+    }
+
+    .tript-panneau[data-etat='attenue'] {
+      flex-grow: 0.78;
+    }
+
+    .tript-panneau[data-etat='actif'] .tript-media img {
+      transform: scale(1);
+      filter: saturate(1) brightness(0.96);
+    }
+
+    .tript-panneau[data-etat='attenue'] .tript-media img {
+      filter: saturate(0.5) brightness(0.5);
+    }
+
+    /* Panneau resserré : le titre au corps du repos débordait (« Événementiel »
+       est long). On le réduit, et le verbe cède la place pour ne pas empiler
+       trois lignes de capitales dans une colonne étroite. */
+    .tript-panneau[data-etat='attenue'] .tript-titre {
+      font-size: clamp(1.25rem, 1.7vw, 1.55rem);
+    }
+
+    .tript-panneau[data-etat='attenue'] .tript-verbe {
+      display: none;
+    }
+
+    .tript-titre {
+      transition: font-size 700ms var(--ease-expo);
+    }
+
+    /* Le détail ne se déplie qu'au panneau actif. */
+    .tript-detail {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transition:
+        grid-template-rows 800ms var(--ease-expo),
+        opacity 500ms var(--ease-quint) 120ms;
+    }
+
+    .tript-panneau[data-etat='actif'] .tript-detail {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+
+    .tript-detail > * {
+      min-height: 0;
+      overflow: hidden;
+    }
+  }
+
+  /* Mobile : pile scrollable, tout est lisible d'emblée. */
+  @media (max-width: 59.999rem) {
+    .tript {
+      flex-direction: column;
+      height: auto;
+      min-height: 0;
+    }
+
+    .tript-panneau {
+      flex: none;
+      min-height: 66svh;
+    }
+
+    .tript-panneau + .tript-panneau::before {
+      inset-block: auto;
+      inset-inline: 0;
+      top: 0;
+      left: auto;
+      width: auto;
+      height: 1px;
+    }
+
+    .tript-media img {
+      transform: scale(1);
+      filter: saturate(0.95) brightness(0.8);
+    }
+
+    .tript-detail {
+      display: block;
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tript-enonce,
+    .tript-panneau,
+    .tript-media img,
+    .tript-detail {
+      transition-duration: 1ms;
+    }
+  }
+
+  /* --- Photos éditoriales --------------------------------------- */
+
+  .photo {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-sand);
+  }
+
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 900ms var(--ease-expo);
+  }
+
+  a:hover .photo img,
+  .photo:hover img {
+    transform: scale(1.035);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .photo img {
+      transition: none;
+    }
+    a:hover .photo img,
+    .photo:hover img {
+      transform: none;
+    }
+  }
+
+  /* --- En-tête -------------------------------------------------- */
+  /* Au repos, l'en-tête flotte sur le visuel sombre du haut de page :
+     texte blanc. Au premier défilement, habit papier et encre. */
+
+  .entete {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 50;
+    color: #fff;
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 400ms var(--ease-quint),
+      border-color 400ms var(--ease-quint),
+      color 400ms var(--ease-quint);
+  }
+
+  .entete > .cadre {
+    position: relative;
+    z-index: 2;
+  }
+
+  html[data-defile='oui'] .entete {
+    background: rgb(246 243 236 / 0.9);
+    backdrop-filter: blur(14px) saturate(1.3);
+    border-bottom-color: var(--color-line);
+    color: var(--color-ink);
+  }
+
+  .entete :focus-visible {
+    outline-color: #fff;
+  }
+
+  html[data-defile='oui'] .entete :focus-visible {
+    outline-color: var(--color-vert);
+  }
+
+  /* Menu mobile déployé : fond sombre imposé, quel que soit le défilement. */
+  html .entete[data-ouvert='oui'] {
+    background: var(--color-nuit);
+    color: #fff;
+    border-bottom-color: transparent;
+    backdrop-filter: none;
+  }
+
+  html .entete[data-ouvert='oui'] :focus-visible {
+    outline-color: #fff;
+  }
+
+  .entete-lien {
+    position: relative;
+    color: inherit;
+  }
+
+  .entete-lien::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: -0.375rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 340ms var(--ease-expo);
+  }
+
+  .entete-lien:hover::after,
+  .entete-lien[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  /* Cible tactile de 44 px, traits qui se croisent à l'ouverture. */
+  .entete-burger {
+    display: grid;
+    place-content: center;
+    gap: 0.375rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-right: -0.625rem;
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .entete-burger-trait {
+    display: block;
+    width: 1.375rem;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 340ms var(--ease-expo);
+  }
+
+  .entete-burger[aria-expanded='true'] .entete-burger-trait-a {
+    transform: translateY(3.75px) rotate(45deg);
+  }
+
+  .entete-burger[aria-expanded='true'] .entete-burger-trait-b {
+    transform: translateY(-3.75px) rotate(-45deg);
+  }
+
+  .entete-panneau {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: calc(5.5rem + env(safe-area-inset-top)) var(--gutter)
+      calc(2rem + env(safe-area-inset-bottom));
+    background: var(--color-nuit);
+    color: #fff;
+    overflow-y: auto;
+    animation: panneau-entre 420ms var(--ease-expo) both;
+  }
+
+  @keyframes panneau-entre {
+    from {
+      opacity: 0;
+      transform: translateY(-1.5rem);
+    }
+  }
+
+  .entete-panneau nav ul {
+    border-top: 1px solid rgb(255 255 255 / 0.16);
+  }
+
+  .entete-panneau nav li + li {
+    border-top: 1px solid rgb(255 255 255 / 0.16);
+  }
+
+  .entete-panneau nav a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.125rem 0;
+    min-height: 3.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 7vw, 2.125rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+
+  .entete-panneau-index {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: #8fbb9f;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .entete-lien::after,
+    .entete-burger-trait {
+      transition: none;
+    }
+    .entete-panneau {
+      animation: none;
+    }
+  }
+
+  /* --- Formulaire ----------------------------------------------- */
+
+  .champ {
+    width: 100%;
+    padding: 0.9375rem 1rem;
+    min-height: 3.25rem;
+    /* background-color et non background : le raccourci écraserait la
+       flèche du select (background-image posée en couche base). */
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-line);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.4;
+    transition:
+      border-color 200ms var(--ease-quint),
+      box-shadow 200ms var(--ease-quint);
+  }
+
+  .champ::placeholder {
+    color: var(--color-muted);
+    opacity: 1;
+  }
+
+  .champ:hover {
+    border-color: var(--color-muted);
+  }
+
+  .champ:focus {
+    outline: none;
+    border-color: var(--color-vert);
+    box-shadow: 0 0 0 3px rgb(24 134 54 / 0.16);
+  }
+
+  .champ[aria-invalid='true'] {
+    border-color: #8f1f19;
+  }
+
+  .etiquette {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- Frise historique ----------------------------------------- */
+
+  .frise-item {
+    position: relative;
+    padding-left: clamp(1.75rem, 4vw, 3.25rem);
+    padding-bottom: clamp(2rem, 3.5vw, 3rem);
+    border-left: 1px solid var(--color-line);
+  }
+
+  .frise-item:last-child {
+    border-left-color: transparent;
+    padding-bottom: 0;
+  }
+
+  .frise-item::before {
+    content: '';
+    position: absolute;
+    left: -4.5px;
+    top: 0.5em;
+    width: 8px;
+    height: 8px;
+    background: var(--color-vert);
+    border-radius: 50%;
+  }
+}
